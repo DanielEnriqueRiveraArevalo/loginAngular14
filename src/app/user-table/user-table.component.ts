@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../auth.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-user-table',
@@ -10,7 +12,10 @@ import { AuthService } from '../auth.service';
 export class UserTableComponent implements OnInit {
 
   displayedColumns: string[] = ['name','email', 'phone', 'gender'];
-  dataSource: any[] = [];
+  dataSource = new MatTableDataSource<any>([]);
+  pageSize: number = 20;
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
     private http: HttpClient,
@@ -22,8 +27,8 @@ export class UserTableComponent implements OnInit {
   }
 
   fetchUsers(){
-    this.http.get<any>('https://randomuser.me/api/?results=10').subscribe(response => {
-      this.dataSource = response.results.map((user:any) => {
+    this.http.get<any>('https://randomuser.me/api/?results=100').subscribe(response => {
+      const users = response.results.map((user:any) => {
         return{
           name: `${user.name.first} ${user.name.last}`,
           email: user.email,
@@ -31,6 +36,8 @@ export class UserTableComponent implements OnInit {
           gender: user.gender
         };
       });
+      this.dataSource.data = users;
+      this.dataSource.paginator = this.paginator;
     });
   }
 

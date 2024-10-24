@@ -2,8 +2,8 @@
     <button mat-raised-button color="warn" (click)="logout()">Logout</button>
 </div>
 
-<div class="table-container">
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<div class="table-container" >
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" >
         <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>Name</th>
             <td mat-cell *matCellDef="let element">{{element.name}}</td>
@@ -28,6 +28,8 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 </div>
+<mat-paginator [length]="dataSource.data.length" [pageSize]="pageSize" [pageSizeOptions]="[20]" aria-label="Select page"></mat-paginator>
+
 
 
   
