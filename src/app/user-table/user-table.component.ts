@@ -13,7 +13,7 @@ export class UserTableComponent implements OnInit {
 
   displayedColumns: string[] = ['name','email', 'phone', 'gender'];
   dataSource = new MatTableDataSource<any>([]);
-  pageSize: number = 20;
+  pageSize: number = 10;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -27,7 +27,7 @@ export class UserTableComponent implements OnInit {
   }
 
   fetchUsers(){
-    this.http.get<any>('https://randomuser.me/api/?results=100').subscribe(response => {
+    this.http.get<any>('https://randomuser.me/api/?results=200').subscribe(response => {
       const users = response.results.map((user:any) => {
         return{
           name: `${user.name.first} ${user.name.last}`,
